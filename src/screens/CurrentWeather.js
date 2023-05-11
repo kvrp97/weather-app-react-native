@@ -1,24 +1,41 @@
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import RowText from '../components/RowText';
 
 export default function CurrentWeather() {
+    const {
+        wrapper,
+        container,
+        temp,
+        feels,
+        highLowWrapper,
+        highLow,
+        bodyWrapper,
+        description,
+        message
+    } = styles
     return (
-        <SafeAreaView style={styles.wrapper}>
-            <View style={styles.container}>
+        <SafeAreaView style={wrapper}>
+            <View style={container}>
                 <Icon name="white-balance-sunny" size={100} color="black" />
-                <Text style={styles.temp}>6</Text>
-                <Text style={styles.feels}>Fells like 5</Text>
-                <View style={styles.highLowWrapper}>
-                    <Text style={styles.highLow}>High: 8 </Text>
-                    <Text style={styles.highLow}>Low: 6</Text>
-
-                </View>
+                <Text style={temp}>6</Text>
+                <Text style={feels}>Fells like 5</Text>
+                <RowText
+                    messageOne={'High: 8'}
+                    messageTwo={'Low: 6'}
+                    containerStyle={highLowWrapper}
+                    messageOneStyles={highLow}
+                    messageTwoStyles={highLow}
+                />
             </View>
-            <View style={styles.bodyWrapper}>
-                <Text style={styles.description}>Its sunny</Text>
-                <Text style={styles.message}>Its perfect t-shirt weather</Text>
-            </View>
+            <RowText
+                messageOne={'Its sunny'}
+                messageTwo={'Its perfect t-shirt weather'}
+                containerStyle={bodyWrapper}
+                messageOneStyles={description}
+                messageTwoStyles={message}
+            />
         </SafeAreaView>
     )
 }
@@ -52,7 +69,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         alignItems: 'flex-start',
         paddingLeft: 25,
-        marginBottom: 40,        
+        marginBottom: 40,
     },
     description: {
         fontSize: 48,
