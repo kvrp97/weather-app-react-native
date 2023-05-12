@@ -1,13 +1,17 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Feather from 'react-native-vector-icons/Feather'
 
 const ListItem = (props) => {
     const { dt_txt, min, max, condition } = props
     const { item, date, temp } = styles
     return (
-        <View style={item}>
-            <Icon name={'white-balance-sunny'} size={50} color={'orange'} />
+        <View style={item}>            
+            <Feather
+                name={'sun'}
+                size={50}
+                color={'yellow'}
+            />
             <Text style={date}>{dt_txt}</Text>
             <Text style={temp}>{min}</Text>
             <Text style={temp}>{max}</Text>
@@ -24,7 +28,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center',
         borderWidth: 3,
-        borderRadius:20,
+        borderRadius: 20,
         backgroundColor: 'pink'
     },
     temp: {
