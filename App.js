@@ -3,16 +3,27 @@ import { View, ActivityIndicator, StyleSheet } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import Tabs from './src/components/Tabs'
 import GetLocation from 'react-native-get-location'
-import { TEST_KEY } from '@env' 
-
-// api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
+import { WEATHER_API_KEY } from '@env'
 
 const App = () => {
   const [loading, setLoading] = useState(true)
-  const [location, setLocation] = useState(null)
   const [error, setError] = useState(null)
+  const [weather, setWeather] = useState([])
+  const [lat, setLat] = useState([])
+  const [lon, setLon] = useState([])
 
-  console.log(TEST_KEY);
+  const fetchWeatherData = async () => {
+    try {
+      const res = await fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}`)
+      const data = await res.json()
+      setWeather(data)
+      setLoading(false)
+    } catch (err) {
+      setError('Could not fetch weather data : ', err)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
     (async () => {
@@ -21,21 +32,23 @@ const App = () => {
         timeout: 60000,
       })
         .then(location => {
-          setLocation(location)
+          setLat(location.latitude)
+          setLon(location.longitude)
+          fetchWeatherData()
         })
         .catch(error => {
           setError('Permission to access location was denied.', error)
         })
-    })
-  },[])  
+    })()
+  }, [lat, lon])
 
   if (loading) {
     return (
-      <View style={styles.container}>        
+      <View style={styles.container}>
         <ActivityIndicator size={'large'} color={'lightblue'} />
       </View>
     )
-  } 
+  }
 
   return (
     <NavigationContainer>
