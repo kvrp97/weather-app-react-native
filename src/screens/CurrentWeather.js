@@ -4,11 +4,11 @@ import Feather from 'react-native-vector-icons/Feather'
 import RowText from '../components/RowText'
 import { weatherType } from '../utilities/WeatherType'
 
-export default function CurrentWeather() {
+export default function CurrentWeather({ weatherData }) {
     const {
         wrapper,
         container,
-        temp,
+        tempStyle,
         feels,
         highLowWrapper,
         highLow,
@@ -16,27 +16,40 @@ export default function CurrentWeather() {
         description,
         message
     } = styles
+
+    const {
+        main: {
+            temp, feels_like, temp_max, temp_min
+        },
+        weather
+    } = weatherData
+
+    const weatherCondition = weather[0].main
+
     return (
-        <SafeAreaView style={wrapper}>
-            <View style={container}>                
+        <SafeAreaView style={[
+            wrapper,
+            { backgroundColor: weatherType[weatherCondition].backgroundColor }
+        ]}>
+            <View style={container}>
                 <Feather
-                    name={'sun'}
+                    name={weatherType[weatherCondition].icon}
                     size={100}
-                    color={'black'}
+                    color={'white'}
                 />
-                <Text style={temp}>6</Text>
-                <Text style={feels}>Fells like 5</Text>
+                <Text style={tempStyle}>{temp}</Text>
+                <Text style={feels}>{`Fells like 5 ${feels_like}`}</Text>
                 <RowText
-                    messageOne={'High: 8'}
-                    messageTwo={'Low: 6'}
+                    messageOne={`High: ${temp_max}`}
+                    messageTwo={`Low: ${temp_min}`}
                     containerStyle={highLowWrapper}
                     messageOneStyles={highLow}
                     messageTwoStyles={highLow}
                 />
             </View>
             <RowText
-                messageOne={'Its sunny'}
-                messageTwo={weatherType['Thunderstorm'].message}
+                messageOne={weather[0].description}
+                messageTwo={weatherType[weatherCondition].message}
                 containerStyle={bodyWrapper}
                 messageOneStyles={description}
                 messageTwoStyles={message}
@@ -55,7 +68,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    temp: {
+    tempStyle: {
         color: 'black',
         fontSize: 48
     },

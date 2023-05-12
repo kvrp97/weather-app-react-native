@@ -7,26 +7,29 @@ import City from '../screens/City'
 
 const Tab = createBottomTabNavigator()
 
-const Tabs = () => {
+const Tabs = ({ weather }) => {
+
   return (
     <Tab.Navigator
-        screenOptions={{
-          tabBarActiveTintColor: 'tomato',
-          tabBarInactiveTintColor: 'gray',          
-          tabBarStyle:{
-            backgroundColor:'lightblue'            
-          },
-          headerStyle:{
-            backgroundColor:'lightblue',                           
-          },
-          headerTitleStyle:{            
-            fontWeight:'bold',
-            fontSize:25,
-            color:'tomato',
-          },
-        }}
-      >
-        <Tab.Screen name={'Current'} component={CurrentWeather} options={{
+      screenOptions={{
+        tabBarActiveTintColor: 'tomato',
+        tabBarInactiveTintColor: 'gray',
+        tabBarStyle: {
+          backgroundColor: 'lightblue'
+        },
+        headerStyle: {
+          backgroundColor: 'lightblue',
+        },
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          fontSize: 25,
+          color: 'tomato',
+        },
+      }}
+    >
+      <Tab.Screen
+        name={'Current'}
+        options={{
           tabBarIcon: ({ focused }) => (
             <Feather
               name={'droplet'}
@@ -35,8 +38,14 @@ const Tabs = () => {
             />
           )
         }}
-        />
-        <Tab.Screen name={'Upcoming'} component={UpcomingWeather} options={{
+      >
+        {() => <CurrentWeather weatherData={weather.list[0]} />}
+      </Tab.Screen>
+
+      <Tab.Screen
+        name={'Upcoming'}
+        component={UpcomingWeather}
+        options={{
           tabBarIcon: ({ focused }) => (
             <Feather
               name={'clock'}
@@ -45,8 +54,13 @@ const Tabs = () => {
             />
           )
         }}
-        />
-        <Tab.Screen name={'City'} component={City} options={{
+      />
+
+
+      <Tab.Screen
+        name={'City'}
+        component={City}
+        options={{
           tabBarIcon: ({ focused }) => (
             <Feather
               name={'home'}
@@ -55,8 +69,8 @@ const Tabs = () => {
             />
           )
         }}
-        />
-      </Tab.Navigator>
+      />
+    </Tab.Navigator>
   )
 }
 
